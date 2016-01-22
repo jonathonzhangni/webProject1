@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <style>
+
+        div.float_menu1 {
+            background-color: rgb(200, 200, 200)
+            width: 500px;
+            height: 50px;
+            position: absolute;
+            top: 66px;
+            left: 15px;
+            visibility: hidden
+        }
+
+        div.top button {
+            width: 13%;
+            vertical-align: top;
+            background-color: rgb(168, 168, 168);
+            margin: 2px;
+            border: none;
+            white-space: normal;
+            color: white;
+
+        }
+
+        div.top button:non-focus {
+
+            background-color: rgb(168, 168, 168);
+
+        }
+
+        div.bottom button {
+            width: 18%;
+            background-color: #A8A8A8;
+            margin: 2px;
+            border: none;
+            height: 2.5em;
+            color: white;
+            vertical-align: top;
+            margin: 3px;
+        }
+
+        button:focus {
+            outline: 0;
+        }
+
+        select {
+            font-size: 17px;
+        }
+
+        .hideoption {
+            display: none;
+            visibility: hidden;
+            height: 0;
+            font-size: 0
+        }
+
+        table.tb {
+            visibility: hidden;
+        }
+
+        @media screen {
+            div.top button {
+                white-space: normal;
+            }
+        }
+    </style>
+
+    <script>
+
+
+        var air = ["Specified Process",
+            "Motor Vehicle",
+            "Asbestos",
+            "Ozone layer protection",
+            "Guide to Main Ordinance",
+            "Opening Burning",
+            "Fuel Control",
+            "Smoke Control",
+            "Furnaces, Oven & Chimneys Control",
+            "Health",
+            "Volatile Organic Compounds Control",
+            "Indoor Air Quality",
+            "Modelling and Assessment",
+            "Odour Control",
+            "Construction Dust Control",
+            "Emergency Generators",
+            "Joss Paper Burning",
+            "Marine Emission Control",
+            "Others"
+        ];
+        var noise = [
+            "Traffic Noise",
+            "Construction Noise Permit",
+            "Industrial and Commercial Noise",
+            "Neighbourhood Noise",
+            "Vehicle Noise",
+            "Planning Guideline"
+        ];
+        var waste = [
+            "Livestock Waste",
+            "Chemical Waste Control",
+            "Waste Import & Export Control",
+            "Dumping at Sea",
+            "Control",
+            "Grease Trap",
+            "Clinical Waste Control",
+            "Product Assessment",
+            "Waste Reduction",
+            "Landfill Gas Hazard Assessment",
+            "Contaminated Land Management",
+            "Refuse Collection Vehicles",
+            "Food Waste",
+            "Fly-tipping & Land Filling Control ",
+            "Others"
+
+        ];
+        var water = [
+            "Village House Discharge",
+            "Sewer Connection",
+            "Small Sewage Treatment Plant Design",
+            "Sewage Infrastructure Planning"
+
+        ];
+        var eap = [
+            "Guidance Notes",
+            "Planning Guideline"
+
+        ];
+        var cbic = [
+            "Cleaner Production Partnership Programme",
+            "Climate Change"
+
+        ];
+        var others = [
+            "Restaurant",
+            "Property Management",
+            "Business",
+            "Vehicle Repair Workshop"
+
+        ];
+
+        window.onload = setButtonHeight;
+
+        function reload
+
+        function showTableDetail() {
+            var tb = document.getElementById('tb');
+            tb.style.visibility = "visible";
+            setListInvisable();
+
+        }
+
+        function setListInvisable() {
+            var floatmenu = document.getElementById("float_menu1");
+            floatmenu.style.visibility = "hidden";
+        }
+
+        function setButtonUnchecked() {
+            var nodes = document.getElementById('buttonGroup').childNodes;
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].nodeName.toLowerCase() == 'button') {
+                    nodes[i].style.background = "rgb(168, 168, 168)";
+                }
+            }
+
+        }
+
+        function setListTop() {
+            var nodes = document.getElementById('buttonGroup');
+            var floatmenu = document.getElementById("float_menu1");
+
+            var cs = document.defaultView.getComputedStyle(nodes, null);
+
+            var menutop = parseInt(cs.getPropertyValue('height').replace(/px/, "")) + 13;
+
+            floatmenu.style.top = menutop + "px";
+            //alert(menutop);
+        }
+
+        function setListLocation(leftLoc) {
+            var floatmenu = document.getElementById("float_menu1");
+            var menuWidth = floatmenu.offsetWidth;
+
+            var menuLeft = Math.min(self.innerWidth - menuWidth, leftLoc)
+            floatmenu.style.left = menuLeft + "px";
+            setListTop()
+        }
+
+
+        function setButtonHeight() {
+
+            var maxHeight = 0;
+
+            var nodes = document.getElementById('buttonGroup').childNodes;
+
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].nodeName.toLowerCase() == 'button') {
+
+                    maxHeight = Math.max(nodes[i].offsetHeight, maxHeight);
+                }
+            }
+            //alert(maxHeight);
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].nodeName.toLowerCase() == 'button') {
+                    nodes[i].style.height = maxHeight + "px";
+                }
+            }
+
+
+        }
+
+
+        function setColor(btn, arrs) {
+            var floatmenu = document.getElementById("float_menu1");
+            var opt;
+            var index;
+
+            var property = document.getElementById(btn);
+            var leftLoc = property.offsetLeft;
+            var cs = document.defaultView.getComputedStyle(property, null);
+            var bg = cs.getPropertyValue('background-color');
+            var selectList = document.getElementById('select1');
+
+            setButtonUnchecked();
+
+            if (bg == "rgb(168, 168, 168)") {
+
+
+                document.getElementById(btn).style.background = "rgb(0,144,0)";
+
+                while (selectList.firstChild) {
+                    selectList.removeChild(selectList.firstChild);
+                }
+
+                var opt = document.createElement('option');
+                opt.value = "select";
+                opt.className = "hideoption"
+                opt.innerHTML = "select";
+                selectList.appendChild(opt);
+
+                for (index = 0; index < arrs.length; ++index) {
+                    console.log(arrs[index]);
+                    var opt = document.createElement('option');
+                    opt.value = arrs[index];
+                    opt.innerHTML = arrs[index];
+                    selectList.appendChild(opt);
+
+                }
+                setListLocation(leftLoc);
+                floatmenu.style.visibility = "visible";
+                //floatmenu.style.display = 'none';
+
+            } else {
+                if (floatmenu.style.visibility == "hidden") {
+                    floatmenu.style.visibility = "visible";
+                    document.getElementById(btn).style.background = "rgb(0, 144, 0)";
+                    setListLocation(leftLoc);
+                }
+                else {
+                    document.getElementById(btn).style.background = "rgb(168, 168, 168)";
+                    floatmenu.style.visibility = "hidden";
+                }
+
+            }
+
+        }
+
+
+        window.addEventListener('mouseup', function (event) {
+            var box = document.getElementById('float_menu1');
+            var nodes = document.getElementById('buttonGroup');
+
+            //for(var i=0; i<nodes.length; i++) {
+            //if (nodes[i].nodeName.toLowerCase() != 'button') {
+            if (event.target != box && event.target.parentNode != box && event.target != nodes && event.target.parentNode != nodes) {
+                box.style.visibility = "hidden";
+                setButtonUnchecked();
+                //box.style.display = 'none';
+            }
+            //}
+            //}
+        });
+
+        window.addEventListener("resize", function () {
+
+            var leftLoc
+            var nodes = document.getElementById('buttonGroup').childNodes;
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].nodeName.toLowerCase() == 'button') {
+                    if (nodes[i].style.background == "rgb(0, 144, 0)") {
+                        leftLoc = nodes[i].offsetLeft;
+                        break;
+                    }
+                }
+            }
+//window.location.reload();
+            setListLocation(leftLoc);
+        });
+
+
+    </script>
+</head>
+<body>
+<div style="width:100%">
+    <div class="top"
+         id="buttonGroup"
+         style="padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;">
+        <button class="test" type="button" id="bt1" onclick="setColor('bt1',air)">Air</button>
+
+        <button type="button" id="bt2" onclick="setColor('bt2',noise)">Noise</button>
+
+        <button type="button" id="bt3" onclick="setColor('bt3',waste)">Waste</button>
+
+        <button type="button" id="bt4" onclick="setColor('bt4',water)">Water</button>
+
+        <button type="button" id="bt5" onclick="setColor('bt5',eap)">Environmental Assessment & Planning</button>
+
+        <button type="button" id="bt6" onclick="setColor('bt6',cbic)">Cross Boundary & International Co-operation
+        </button>
+
+        <button type="button" id="bt7" onclick="setColor('bt7',others)">Others</button>
+
+    </div>
+
+    <div class="float_menu1" id="float_menu1">
+
+        <select id="select1" onchange="showTableDetail()">
+            <option selected disabled class="hideoption">Select</option>
+
+            <option value="label">Specified Process
+            </option>
+            <option value="saab">Motor Vehicle
+            </option>
+            <option value="opel">Asbestos
+            </option>
+            <option value="audi">Ozone layer protection
+            </option>
+            <option value="audi">Guide to Main Ordinance
+
+            </option>
+            <option value="audi">Opening Burning
+
+            </option>
+            <option value="audi">Fuel Control
+
+            </option>
+            <option value="audi">Smoke Control
+
+            </option>
+            <option value="audi">Furnaces, Oven & Chimneys Control
+
+            </option>
+            <option value="audi">Health
+
+            </option>
+            <option value="audi">Volatile Organic Compounds Control
+
+            </option>
+            <option value="audi">Indoor Air Quality
+
+            </option>
+
+            <option>Modelling and Assessment
+
+            </option>
+            <option>Odour Control
+
+            </option>
+            <option>Construction Dust Control
+
+            </option>
+            <option>Emergency Generators
+
+            </option>
+            <option>Joss Paper Burning
+
+            </option>
+            <option>Marine Emission Control
+
+            </option>
+            <option>Others
+
+            </option>
+
+        </select>
+    </div>
+
+
+    <!--<div
+    class="bottom"
+    width=100%
+     style="padding-top: 10px;
+        padding-right: 5px;
+        padding-bottom: 5px;
+        padding-left: 5px;">
+    <button  type="button" id="bt7"  onclick="setColor1('bt7')">Specified Process</button>
+    <button  type="button" id="bt8"  onclick="setColor1('bt8')">Motor Vehicle</button>
+    <button  type="button" id="bt9"   onclick="setColor1('bt9')">Asbestos</button>
+    <button  type="button"  id="bt10" onclick="setColor1('bt10')">Ozone Layer Protection</button>
+    <button  type="button" id="bt11"  onclick="setColor1('bt11')">General</button>
+    <button  type="button" id="bt12"  onclick="setColor1('bt12')">Open Burning</button>
+    <button  type="button" id="bt13"  onclick="setColor1('bt13')">Fuel Control</button>
+    <button  type="button" id="bt14"  onclick="setColor1('bt14')">Smoke Control</button>
+    <button  type="button" id="bt15"  onclick="setColor1('bt15')">Smoke Control</button>
+    <button  type="button" id="bt16"  onclick="setColor1('bt16')">Furnaces, Oven & Chimneys Control</button>
+    <button  type="button" id="bt17"  onclick="setColor1('bt17')">Health</button>
+    <button  type="button" id="bt18"  onclick="setColor1('bt18')">Others</button>
+    <button  type="button" id="bt19"  onclick="setColor1('bt19')">Volatile Organic Compounds Control</button>
+    <button  type="button" id="bt20"  onclick="setColor1('bt20')">Indoor Air Quality</button>
+    <button  type="button" id="bt21"  onclick="setColor1('bt21')">Modelling and Assessment</button>
+    <button  type="button" id="bt22"  onclick="setColor1('bt22')">Construction Dust Control</button>
+    <button  type="button" id="bt23"  onclick="setColor1('bt23')">Emergency Generators</button>
+    <button  type="button" id="bt24"  onclick="setColor1('bt24')">Joss Paper Burning</button>
+    <button  type="button" id="bt25"  onclick="setColor1('bt25')">Marine Emission Control</button>
+
+    </div>-->
+
+    <div style="padding-top: 10px;">
+
+        <table width=100%>
+            <col width="30">
+            <col width="140">
+            <col width="140">
+            <col width="100">
+
+            <tr>
+                <th bgcolor="#004400" align="left"><font color="#ffffff">No.</font></th>
+                <th bgcolor="#004400" align="left"><font color="#ffffff">Programme Area</font></th>
+                <th bgcolor="#004400" align="left"><font color="#ffffff">Topic</font></th>
+                <th bgcolor="#004400" align="left"><font color="#ffffff">*Serial No.</font></th>
+                <th bgcolor="#004400" align="left"><font color="#ffffff">Title of Guidance Note</font></th>
+            </tr>
+        </table>
+        <table width=100% class="tb" id="tb">
+            <col width="30">
+            <col width="140">
+            <col width="140">
+            <col width="100">
+            <tr>
+                <td>1.</td>
+                <td>Air</td>
+                <td>Specified Process</td>
+                <td>GN2014P042</td>
+                <td>A guidance note on the best practicable means for a aluminium works (secondary aluminium
+                    processes)
+                </td>
+            </tr>
+            <tr>
+                <td>2.</td>
+                <td>Air</td>
+                <td>Specified Process</td>
+                <td>GN2014P043</td>
+                <td>A guidance note on the best practicable means for a aluminium works (secondary aluminium
+                    processes)
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
